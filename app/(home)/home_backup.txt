@@ -1,0 +1,23 @@
+import { useAuthContext } from '@/hooks/use-auth-context'
+import { supabase } from '@/lib/supabase'
+import { Button, Text, View } from 'react-native'
+
+export default function Home() {
+	const { profile } = useAuthContext()
+
+	async function signOut() {
+		const { error } = await supabase.auth.signOut()
+
+		if (error) {
+			console.error('Error signing out:', error)
+		}
+	}
+
+	return (
+		<View className="flex-1 items-center justify-center bg-white px-6">
+			<Text className="text-2xl font-bold text-blue-500 text-center">Ekran główny</Text>
+			<Text>{profile?.full_name}</Text>
+			<Button title="Wyloguj się" onPress={signOut}></Button>
+		</View>
+	)
+}
